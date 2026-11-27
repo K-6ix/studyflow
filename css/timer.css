@@ -1,0 +1,397 @@
+/* ==========================================================================
+   StudyFlow — page « Chrono »
+   Tous les sélecteurs commencent par .timer-page : rien n'agit en dehors de
+   cette page. Les classes de ce fichier commencent par « timer- ».
+   Les couleurs viennent uniquement des variables de theme.css.
+   ========================================================================== */
+
+.timer-page,
+.timer-page *,
+.timer-page *::before,
+.timer-page *::after {
+  box-sizing: border-box;
+}
+
+.timer-page {
+  display: grid;
+  gap: var(--gap, 1rem);
+  width: 100%;
+  max-width: 720px;
+  min-width: 0;
+  margin: 0 auto;
+  color: var(--text);
+}
+
+/* L'attribut hidden doit toujours gagner, même sur un élément en display:grid */
+.timer-page [hidden] {
+  display: none !important;
+}
+
+/* ---------- En-tête ---------- */
+
+.timer-page .timer-head {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.timer-page .timer-title {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.timer-page .timer-lead {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ---------- Carte du chrono ---------- */
+
+.timer-page .timer-panel {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* Choix du mode : deux boutons segmentés */
+.timer-page .timer-modes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.timer-page .timer-mode {
+  min-height: 40px;
+  padding: 0.4rem 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.timer-page .timer-mode[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.14);
+  background: color-mix(in srgb, var(--accent) 32%, transparent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--text);
+}
+
+.timer-page .timer-mode:disabled {
+  cursor: not-allowed;
+}
+
+.timer-page .timer-mode:disabled[aria-pressed="false"] {
+  opacity: 0.55;
+}
+
+/* Champs de saisie */
+.timer-page .timer-field,
+.timer-page .timer-duration {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+}
+
+.timer-page .timer-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.timer-page .timer-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  color-scheme: dark;
+  font: inherit;
+}
+
+.timer-page .timer-input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.timer-page .timer-input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.timer-page .timer-input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.timer-page .timer-duration-input {
+  text-align: center;
+}
+
+.timer-page .timer-error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+/* Réglages du pomodoro (visibles seulement en mode Pomodoro) */
+.timer-page .timer-options {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.timer-page .timer-durations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.timer-page .timer-sound {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  min-height: 32px;
+  cursor: pointer;
+}
+
+.timer-page .timer-sound-input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+/* ---------- Cadran : anneau de progression + temps ---------- */
+
+.timer-page .timer-dial {
+  position: relative;
+  width: min(100%, 280px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.timer-page .timer-ring {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.timer-page .timer-ring-track {
+  fill: none;
+  stroke: var(--card-border);
+  stroke-width: 8;
+}
+
+.timer-page .timer-ring-arc {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+/* L'anneau change de couleur selon l'étape du pomodoro */
+.timer-page[data-phase="break"] .timer-ring-arc {
+  stroke: var(--ok);
+}
+
+.timer-page[data-phase="long"] .timer-ring-arc {
+  stroke: var(--info);
+}
+
+.timer-page .timer-dial-text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 0 12%;
+  text-align: center;
+}
+
+.timer-page .timer-display {
+  font-size: clamp(1.9rem, 9vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-page .timer-step {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* En pause : le temps est légèrement estompé */
+.timer-page[data-status="paused"] .timer-display {
+  opacity: 0.6;
+}
+
+.timer-page .timer-hint {
+  min-height: 1.5em;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ---------- Boutons ---------- */
+
+.timer-page .timer-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.timer-page .timer-btn {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  justify-content: center;
+}
+
+.timer-page .timer-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.timer-page .timer-btn-finish {
+  border: 1px solid var(--ok);
+  color: var(--ok);
+}
+
+.timer-page .timer-btn-abandon {
+  color: var(--danger);
+}
+
+.timer-page .timer-shortcut {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.timer-page .timer-kbd {
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+/* ---------- Sessions du jour ---------- */
+
+.timer-page .timer-today {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.timer-page .timer-today-title {
+  margin: 0;
+}
+
+.timer-page .timer-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timer-page .timer-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.timer-page .timer-dot {
+  flex: none;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.timer-page .timer-item-main {
+  display: grid;
+  flex: 1 1 8rem;
+  min-width: 0;
+}
+
+.timer-page .timer-item-subject {
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timer-page .timer-item-meta {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timer-page .timer-item-minutes {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-page .timer-item-delete {
+  min-height: 36px;
+  margin-left: auto;
+  padding: 0.3rem 0.7rem;
+  color: var(--danger);
+}
+
+.timer-page .timer-empty {
+  margin: 0;
+}
+
+/* ---------- Accessibilité ---------- */
+
+/* Focus clavier bien visible */
+.timer-page button:focus-visible,
+.timer-page input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Écrans larges : les quatre boutons sur une seule ligne */
+@media (min-width: 560px) {
+  .timer-page .timer-actions {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Sur un écran tactile, le raccourci clavier n'a pas de sens */
+@media (hover: none) {
+  .timer-page .timer-shortcut {
+    display: none;
+  }
+}
+
+/* Pour les personnes qui limitent les animations */
+@media (prefers-reduced-motion: reduce) {
+  .timer-page,
+  .timer-page * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

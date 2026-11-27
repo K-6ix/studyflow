@@ -1,0 +1,389 @@
+/* css/revisions.css
+   Page « Révisions » : objectifs + suggestions.
+   Toutes les classes commencent par rev- et tous les sélecteurs sont sous .rev-page : rien de global. */
+
+.rev-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.rev-page *,
+.rev-page *::before,
+.rev-page *::after {
+  box-sizing: border-box;
+}
+
+/* « hidden » doit toujours cacher, même si une classe définit display */
+.rev-page [hidden] {
+  display: none !important;
+}
+
+/* ----- En-tête des cartes ----- */
+
+.rev-page .rev-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.rev-page .rev-head .card-title {
+  margin: 0;
+}
+
+/* ----- États vides ----- */
+
+.rev-page .rev-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.rev-page .rev-empty-text {
+  margin: 0;
+  max-width: 48ch;
+}
+
+/* ----- Matière (pastille + nom) ----- */
+
+.rev-page .rev-subject {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.rev-page .rev-dot {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ----- Partie A : objectifs ----- */
+
+.rev-page .rev-goals {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+}
+
+.rev-page .rev-goal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.rev-page .rev-goal-reached {
+  border-color: var(--ok);
+}
+
+.rev-page .rev-goal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rev-page .rev-goal-title {
+  margin: 0;
+  min-width: 0;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.rev-page .rev-badge {
+  flex: none;
+  padding: 2px 10px;
+  color: var(--ok);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--ok);
+  border-radius: 999px;
+}
+
+.rev-page .rev-goal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.rev-page .rev-bar {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.rev-page .rev-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--ok);
+  animation: rev-grow 0.5s ease-out;
+}
+
+@keyframes rev-grow {
+  from {
+    width: 0;
+  }
+}
+
+.rev-page .rev-goal-progress {
+  margin: 0;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.rev-page .rev-goal .rev-actions {
+  margin-top: auto;
+}
+
+.rev-page .rev-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rev-page .rev-danger {
+  color: var(--danger);
+}
+
+/* ----- Partie B : suggestions ----- */
+
+.rev-page .rev-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.rev-page .rev-settings .rev-field {
+  flex: 0 1 170px;
+}
+
+.rev-page .rev-day + .rev-day {
+  margin-top: 18px;
+}
+
+.rev-page .rev-day-title {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.rev-page .rev-day-title::first-letter {
+  text-transform: uppercase;
+}
+
+.rev-page .rev-sugg-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rev-page .rev-sugg {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--ok);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.rev-page .rev-sugg-main {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.rev-page .rev-sugg-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+}
+
+.rev-page .rev-time {
+  font-variant-numeric: tabular-nums;
+}
+
+.rev-page .rev-duration {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.rev-page .rev-reason {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+/* Éditeur en ligne d'une suggestion */
+.rev-page .rev-editor {
+  display: flex;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--card-border);
+}
+
+.rev-page .rev-editor .rev-field {
+  flex: 1 1 130px;
+}
+
+.rev-page .rev-editor-error {
+  flex: 1 1 100%;
+}
+
+/* ----- Champs de formulaire ----- */
+
+.rev-page .rev-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.rev-page .rev-field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rev-page .rev-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.rev-page .rev-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px 10px;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color-scheme: dark;
+}
+
+.rev-page .rev-input::placeholder {
+  color: var(--muted);
+}
+
+.rev-page .rev-input option {
+  color: var(--text);
+  background: var(--bg-1);
+}
+
+.rev-page .rev-input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.rev-page .rev-input:focus-visible,
+.rev-page .btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.rev-page .rev-error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--danger);
+}
+
+/* ----- Boîte de dialogue « objectif » ----- */
+
+.rev-page .rev-dialog {
+  width: min(480px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  padding: 20px;
+  overflow: auto;
+  color: var(--text);
+  background: var(--bg-1);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+}
+
+.rev-page .rev-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.rev-page .rev-dialog-title {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+}
+
+.rev-page .rev-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rev-page .rev-form-row {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.rev-page .rev-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ----- Petits écrans ----- */
+
+@media (max-width: 520px) {
+  .rev-page .rev-sugg .rev-actions,
+  .rev-page .rev-editor .rev-actions {
+    width: 100%;
+  }
+
+  .rev-page .rev-sugg .rev-actions .btn,
+  .rev-page .rev-editor .rev-actions .btn {
+    flex: 1 1 auto;
+  }
+}
+
+/* ----- Mouvement réduit : pas d'animation ----- */
+
+@media (prefers-reduced-motion: reduce) {
+  .rev-page .rev-bar-fill {
+    animation: none;
+  }
+}

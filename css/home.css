@@ -1,0 +1,483 @@
+/* =========================================================
+   StudyFlow — Vue Accueil
+   ========================================================= */
+
+/* --- Layout principal --- */
+.home-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-areas:
+    "countdown   countdown"
+    "progression month"
+    "stats       month"
+    "badges      month"
+    "recent      month"
+    "week        week"
+    "recap       recap";
+  gap: var(--gap);
+  align-items: start;
+}
+
+/* Le dimanche, le bilan de la semaine passe juste sous le compte à rebours. */
+.home-grid.is-recap-day {
+  grid-template-areas:
+    "countdown   countdown"
+    "recap       recap"
+    "progression month"
+    "stats       month"
+    "badges      month"
+    "recent      month"
+    "week        week";
+}
+
+.home-progress  { grid-area: progression; }
+.home-stats     { grid-area: stats; }
+.home-recent    { grid-area: recent; }
+.home-month     { grid-area: month; }
+.home-week      { grid-area: week; }
+.home-countdown { grid-area: countdown; }
+.home-badges    { grid-area: badges; }
+.home-recap     { grid-area: recap; }
+
+/* --- État vide global --- */
+.home-empty {
+  margin-bottom: var(--gap);
+}
+
+/* --- Progression du jour --- */
+.progress-body {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.ring-wrap {
+  position: relative;
+  flex: none;
+  width: 130px;
+  height: 130px;
+}
+
+.ring-svg { display: block; }
+.ring-bg  { stroke: rgba(255, 255, 255, .08); }
+.ring-fg  { stroke: var(--ok); transition: stroke-dashoffset .6s ease; }
+
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.ring-time { font-size: 20px; font-weight: 700; }
+.ring-pct  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+.progress-side {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.goal-label {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.goal-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.goal-btn { padding: 6px 12px; font-size: 14px; }
+
+.goal-btn.active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--info));
+  border-color: transparent;
+}
+
+.goal-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.goal-input {
+  width: 56px;
+  padding: 6px 8px;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.goal-input:focus { outline: none; border-color: var(--accent); }
+.goal-input-unit  { font-size: 14px; color: var(--muted); }
+
+.task-section {
+  border-top: 1px solid var(--card-border);
+  padding-top: 14px;
+}
+
+.task-count { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+
+.task-list { display: flex; flex-direction: column; gap: 6px; }
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.task-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ok);
+  cursor: pointer;
+  flex: none;
+}
+
+.task-item label { cursor: pointer; flex: 1; }
+
+/* --- Rangée de stats --- */
+.home-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+
+.home-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home-stat .stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.home-stat .stat-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.stat-flame { color: var(--warn); display: inline-flex; align-items: center; }
+
+/* --- Activité récente --- */
+.recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.recent-header .card-title { margin: 0; }
+
+.recent-add {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  line-height: 1;
+  border-radius: 10px;
+}
+
+.recent-list { display: flex; flex-direction: column; gap: 0; }
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.recent-item:last-child { border-bottom: none; }
+.recent-item .dot { flex: none; }
+
+.recent-subject { font-size: 14px; font-weight: 500; }
+.recent-time    { font-size: 12px; color: var(--muted); margin-left: auto; }
+.recent-duration { font-size: 13px; font-weight: 600; min-width: 56px; text-align: right; }
+
+/* --- Vue du mois --- */
+.month-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.month-title {
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.month-nav {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .04);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.month-nav:hover { background: rgba(255, 255, 255, .1); }
+
+.month-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.month-weekdays span {
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.month-grid .day,
+.month-grid .day-out {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.month-grid .day {
+  color: var(--text);
+  background: rgba(255, 255, 255, .03);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  padding: 0;
+}
+
+.month-grid .day:hover { background: rgba(255, 255, 255, .08); }
+
+.month-grid .day-0 { background: rgba(255, 255, 255, .03); color: var(--muted); }
+.month-grid .day-1 { background: rgba(124, 92, 255, .22); }
+.month-grid .day-2 { background: rgba(124, 92, 255, .42); }
+.month-grid .day-3 { background: rgba(124, 92, 255, .62); }
+.month-grid .day-4 { background: rgba(124, 92, 255, .88); color: #fff; }
+
+.month-grid .day-1:hover { background: rgba(124, 92, 255, .32); }
+.month-grid .day-2:hover { background: rgba(124, 92, 255, .52); }
+.month-grid .day-3:hover { background: rgba(124, 92, 255, .72); }
+.month-grid .day-4:hover { background: rgba(124, 92, 255, .95); }
+
+.month-grid .day-out {
+  color: rgba(139, 149, 176, .25);
+  background: transparent;
+}
+
+.month-grid .day-today    { border-color: var(--accent); }
+.month-grid .day-selected { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.month-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.legend-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legend-box.l1 { background: rgba(124, 92, 255, .22); }
+.legend-box.l2 { background: rgba(124, 92, 255, .42); }
+.legend-box.l3 { background: rgba(124, 92, 255, .62); }
+.legend-box.l4 { background: rgba(124, 92, 255, .88); }
+
+.month-selected {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.selected-date { font-weight: 600; text-transform: capitalize; }
+.selected-time, .selected-tasks { color: var(--muted); }
+
+/* --- Rythme de la semaine --- */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .03);
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.week-day.today {
+  background: rgba(124, 92, 255, .15);
+  border-color: var(--accent);
+}
+
+.week-day-name { font-size: 12px; font-weight: 600; color: var(--muted); }
+.week-day.today .week-day-name { color: var(--text); }
+.week-day-time  { font-size: 13px; font-weight: 600; }
+.week-day-tasks { font-size: 11px; color: var(--muted); }
+
+.week-bar-wrap {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: flex-end;
+  margin-top: 4px;
+}
+
+.week-bar {
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent), rgba(124, 92, 255, .5));
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+  transition: height .3s ease;
+}
+
+/* --- Texte muet (états vides dans les cartes) --- */
+.muted-text { color: var(--muted); font-size: 13px; }
+
+/* --- Dialog --- */
+.session-dialog {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  color: var(--text);
+  padding: 24px;
+  max-width: 400px;
+  width: calc(100vw - 32px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+}
+
+.session-dialog::backdrop {
+  background: rgba(11, 16, 32, .7);
+  backdrop-filter: blur(4px);
+}
+
+.dialog-title { margin: 0 0 18px; font-size: 18px; font-weight: 600; }
+
+.session-form { display: flex; flex-direction: column; gap: 10px; }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field-label { font-size: 13px; color: var(--muted); }
+
+.field-input {
+  padding: 9px 12px;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+}
+
+.field-input:focus { outline: none; border-color: var(--accent); }
+.field-error { font-size: 12px; color: var(--danger); min-height: 0; }
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* --- Mobile --- */
+@media (max-width: 699px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "countdown"
+      "progression"
+      "stats"
+      "badges"
+      "month"
+      "recent"
+      "week"
+      "recap";
+  }
+
+  .home-grid.is-recap-day {
+    grid-template-areas:
+      "countdown"
+      "recap"
+      "progression"
+      "stats"
+      "badges"
+      "month"
+      "recent"
+      "week";
+  }
+
+  .home-stats { grid-template-columns: 1fr 1fr; }
+
+  .progress-body {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ring-wrap { align-self: center; }
+
+  .week-grid { gap: 4px; }
+  .week-day { padding: 6px 2px; }
+  .week-day-time { font-size: 11px; }
+  .week-bar-wrap { height: 28px; }
+
+  .month-grid .day,
+  .month-grid .day-out { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-fg { transition: none; }
+  .week-bar { transition: none; }
+}

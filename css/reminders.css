@@ -1,0 +1,172 @@
+/* =========================================================
+   StudyFlow — Rappels : bandeau d'ouverture et compte à rebours
+   Tous les sélecteurs commencent par « remind- ».
+   ========================================================= */
+
+/* --- Bandeau de rappel (au-dessus de la grille de l'accueil) --- */
+.remind-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: var(--gap);
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(124, 92, 255, .22), rgba(79, 131, 255, .12));
+  border: 1px solid rgba(124, 92, 255, .45);
+  backdrop-filter: blur(14px);
+  animation: remind-in .3s ease;
+}
+
+@keyframes remind-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.remind-banner-icon {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), var(--info));
+  box-shadow: 0 6px 18px rgba(124, 92, 255, .4);
+}
+
+.remind-banner-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.remind-banner-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.remind-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.remind-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 14px;
+}
+
+/* La petite pastille de couleur au début de chaque ligne. */
+.remind-line::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.remind-line-overdue::before  { background: var(--danger); }
+.remind-line-today::before    { background: var(--warn); }
+.remind-line-tomorrow::before { background: var(--info); }
+
+.remind-line-label { flex: none; font-weight: 600; }
+.remind-line-text  { min-width: 0; overflow-wrap: anywhere; }
+
+.remind-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #b9a8ff;
+  text-decoration: none;
+}
+.remind-link:hover { text-decoration: underline; }
+
+.remind-close {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  font: inherit;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color .18s, color .18s;
+}
+.remind-close:hover { color: var(--text); background: rgba(255, 255, 255, .08); }
+
+/* --- Compte à rebours (carte de l'accueil) --- */
+.remind-tiles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.remind-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--info);
+}
+.remind-tile.remind-urgent { border-left-color: var(--danger); }
+.remind-tile.remind-soon   { border-left-color: var(--warn); }
+
+/* La pastille « Dans 4 jours » : fond teinté et texte clair, pour rester lisible. */
+.remind-pill {
+  align-self: flex-start;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #9fbbff;
+  background: rgba(79, 131, 255, .16);
+  border: 1px solid rgba(79, 131, 255, .45);
+  border-radius: 999px;
+}
+.remind-urgent .remind-pill {
+  color: #ff9aa2;
+  background: rgba(240, 97, 109, .16);
+  border-color: rgba(240, 97, 109, .5);
+}
+.remind-soon .remind-pill {
+  color: #fcd34d;
+  background: rgba(245, 158, 11, .16);
+  border-color: rgba(245, 158, 11, .5);
+}
+
+.remind-tile-title {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.remind-tile-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.remind-empty {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.remind-empty p { margin: 0; }

@@ -1,0 +1,437 @@
+/* =========================================================
+   StudyFlow — Vue « Agenda »
+   ========================================================= */
+
+/* --- Barre d'outils --- */
+.agenda-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.agenda-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.agenda-nav-btn {
+  font-size: 18px;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.agenda-period-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.agenda-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Sélecteur segmenté */
+.agenda-segmented {
+  display: inline-flex;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.agenda-seg {
+  padding: 7px 14px;
+  font-size: 14px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color .15s, color .15s;
+}
+
+.agenda-seg:hover { color: var(--text); }
+
+.agenda-seg.active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--info));
+}
+
+.agenda-seg:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.agenda-free-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.agenda-free-row input { accent-color: var(--accent); }
+.agenda-free-row label { cursor: pointer; }
+
+/* --- Conteneurs de vue --- */
+.agenda-view { display: flex; flex-direction: column; gap: 0; }
+
+/* --- Ligne « Toute la journée » --- */
+.agenda-allday-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.agenda-week-view .agenda-allday-row {
+  grid-template-columns: 64px repeat(7, 1fr);
+}
+
+.agenda-allday-spacer {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  padding-right: 6px;
+  padding-top: 4px;
+}
+
+.agenda-allday-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 0;
+}
+
+.agenda-allday-empty { font-size: 12px; }
+
+.agenda-allday-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  font-size: 12px;
+  color: var(--text);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--card-border);
+  border-left: 3px solid var(--info);
+  border-radius: 6px;
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.agenda-allday-chip.done { opacity: .55; }
+.agenda-allday-chip.done .agenda-chip-title { text-decoration: line-through; }
+.agenda-allday-chip.overdue { border-color: var(--danger); }
+
+.agenda-chip-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- En-tête semaine --- */
+.agenda-week-header {
+  display: grid;
+  grid-template-columns: 64px repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.agenda-hour-spacer { width: 64px; }
+
+.agenda-week-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.agenda-week-head.today {
+  background: rgba(124, 92, 255, .18);
+}
+
+.agenda-wd-abbr { font-weight: 600; color: var(--muted); }
+.agenda-wd-num { font-size: 15px; font-weight: 700; }
+.agenda-week-head.today .agenda-wd-num { color: var(--accent); }
+
+/* --- Grille horaire --- */
+.agenda-time-grid-wrap { position: relative; }
+
+.agenda-week-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.agenda-time-grid {
+  display: grid;
+  position: relative;
+}
+
+.agenda-time-grid[data-mode='day'] {
+  grid-template-columns: 64px 1fr;
+}
+
+.agenda-time-grid[data-mode='week'] {
+  grid-template-columns: 64px repeat(7, minmax(90px, 1fr));
+}
+
+.agenda-hour-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.agenda-hour-cell {
+  height: 60px;
+  position: relative;
+  border-top: 1px solid var(--card-border);
+}
+
+.agenda-hour-label {
+  position: absolute;
+  top: -8px;
+  right: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--bg-1);
+  padding: 0 4px;
+}
+
+/* Colonne d'un jour */
+.agenda-day-col {
+  position: relative;
+  border-left: 1px solid var(--card-border);
+  min-height: 100%;
+}
+
+.agenda-day-col.today {
+  background: rgba(124, 92, 255, .06);
+}
+
+.agenda-hour-line {
+  height: 60px;
+  border-top: 1px solid rgba(255, 255, 255, .04);
+  cursor: pointer;
+}
+
+.agenda-hour-line:hover {
+  background: rgba(255, 255, 255, .03);
+}
+
+/* Créneau libre */
+.agenda-free-slot {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  border: 1px dashed rgba(124, 92, 255, .45);
+  border-radius: 6px;
+  background: rgba(124, 92, 255, .05);
+  pointer-events: none;
+}
+
+/* Ligne « maintenant » */
+.agenda-now-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.agenda-now-line::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* --- Un bloc horaire --- */
+.agenda-block {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  border-left: 3px solid var(--info);
+  background: rgba(18, 26, 51, .9);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: filter .15s;
+}
+
+.agenda-block:hover { filter: brightness(1.15); }
+.agenda-block:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.agenda-block.done { opacity: .5; }
+.agenda-block.done .agenda-block-title { text-decoration: line-through; }
+.agenda-block.overdue { border-color: var(--danger); border-left-color: var(--danger); }
+
+.agenda-block-time {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.agenda-block-title {
+  font-size: 13px;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.agenda-block-title.done-title { text-decoration: line-through; }
+
+.agenda-block-room {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* --- Vue Mois --- */
+.agenda-month-wd-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.agenda-month-wd {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.agenda-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.agenda-month-cell {
+  min-height: 90px;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, .02);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.agenda-month-cell:hover { background: rgba(255, 255, 255, .05); }
+.agenda-month-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.agenda-month-cell.out {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.agenda-month-cell.out .agenda-month-num { color: rgba(139, 149, 176, .3); }
+
+.agenda-month-cell.today {
+  border-color: var(--accent);
+}
+
+.agenda-month-num {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.agenda-month-cell.today .agenda-month-num { color: var(--accent); }
+
+.agenda-month-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.agenda-month-tag {
+  font-size: 11px;
+  padding: 1px 4px;
+  border-left: 3px solid var(--info);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .05);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agenda-month-tag.done { opacity: .5; text-decoration: line-through; }
+.agenda-month-tag.overdue { border-left-color: var(--danger); }
+
+.agenda-month-more {
+  font-size: 11px;
+  color: var(--muted);
+  padding-left: 4px;
+}
+
+/* --- État vide --- */
+.agenda-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.agenda-empty .btn { min-width: 160px; }
+
+.muted-text { color: var(--muted); font-size: 13px; }
+
+/* --- Mobile --- */
+@media (max-width: 699px) {
+  .agenda-period-title { font-size: 14px; }
+  .agenda-actions { gap: 6px; }
+
+  .agenda-time-grid[data-mode='week'] {
+    grid-template-columns: 48px repeat(7, minmax(80px, 1fr));
+  }
+
+  .agenda-time-grid[data-mode='day'] {
+    grid-template-columns: 52px 1fr;
+  }
+
+  .agenda-allday-row,
+  .agenda-week-header {
+    grid-template-columns: 52px repeat(7, minmax(80px, 1fr));
+  }
+
+  .agenda-month-cell { min-height: 64px; }
+  .agenda-block-title { font-size: 12px; }
+}
+
+@media (max-width: 420px) {
+  .agenda-actions .btn { font-size: 13px; padding: 7px 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agenda-block,
+  .agenda-seg { transition: none; }
+}

@@ -1,0 +1,327 @@
+/* =========================================================
+   StudyFlow — Vue « Tâches »
+   ========================================================= */
+
+.tasks-title { margin: 0 0 16px; }
+
+/* --- Onglets --- */
+.tasks-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tasks-tab {
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color .18s, color .18s;
+}
+
+.tasks-tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, .08);
+}
+
+.tasks-tab.active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--info));
+  border-color: transparent;
+}
+
+/* --- Ajout rapide --- */
+.tasks-quick {
+  margin-bottom: 16px;
+}
+
+.tasks-quick-error {
+  color: var(--danger);
+  font-size: 13px;
+  min-height: 18px;
+  margin-bottom: 8px;
+}
+
+.tasks-quick-error:empty { margin-bottom: 0; }
+
+.tasks-quick-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.tasks-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tasks-field-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tasks-input,
+.tasks-select {
+  padding: 9px 12px;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+}
+
+.tasks-input:focus,
+.tasks-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.tasks-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b95b0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+.tasks-quick-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tasks-more-link {
+  font-size: 13px;
+}
+
+/* --- Filtres --- */
+.tasks-filters {
+  margin-bottom: 16px;
+}
+
+.tasks-filters-toggle {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.tasks-filters-panel {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(14px);
+}
+
+.tasks-filters-panel.open { display: flex; }
+
+.tasks-filters-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* --- Compteurs --- */
+.tasks-count {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.tasks-count strong { color: var(--text); }
+
+/* --- Liste --- */
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tasks-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+.tasks-group-title:first-child { margin-top: 0; }
+
+/* --- Une ligne --- */
+.tasks-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid transparent;
+  transition: background-color .18s;
+}
+
+.tasks-row:hover { background: rgba(18, 26, 51, .8); }
+
+.tasks-row-done {
+  opacity: .55;
+  border-left-color: var(--ok);
+}
+
+.tasks-row-overdue {
+  border-left-color: var(--danger);
+}
+
+.tasks-row-urgent {
+  border-left-color: var(--danger);
+}
+
+.tasks-urgent-tag {
+  flex: none;
+  align-self: flex-start;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--danger);
+  border-radius: 6px;
+  letter-spacing: .5px;
+}
+
+.tasks-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tasks-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tasks-row-name {
+  font-size: 15px;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.tasks-row-name-done {
+  text-decoration: line-through;
+}
+
+.tasks-row-info {
+  font-size: 13px;
+  color: var(--muted);
+  word-break: break-word;
+}
+
+.tasks-row-status {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tasks-row-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.tasks-row-actions {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.tasks-action {
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+.tasks-action-danger {
+  color: var(--danger);
+}
+
+.tasks-action-danger:hover {
+  background: rgba(240, 97, 109, .12);
+}
+
+/* --- Édition en ligne --- */
+.tasks-inline-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.tasks-inline-edit .tasks-field { flex: 1; }
+
+.tasks-inline-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* --- États vides --- */
+.tasks-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.tasks-empty .muted-text {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.muted-text { color: var(--muted); font-size: 13px; }
+
+/* --- Mobile --- */
+@media (max-width: 699px) {
+  .tasks-quick-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tasks-filters-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .tasks-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tasks-row-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .tasks-tab {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .tasks-filters-row { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tasks-row,
+  .tasks-tab { transition: none; }
+}

@@ -1,0 +1,201 @@
+/* Page Statistiques : tout est sous .stats-page */
+.stats-page {
+    display: grid;
+    gap: var(--gap);
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.stats-page * {
+    box-sizing: border-box;
+}
+
+.stats-page [hidden] {
+    display: none !important;
+}
+
+.stats-page .stats-title {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--text);
+}
+
+/* En-tête de section + choix de la période */
+.stats-page .stats-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.stats-page .stats-periods {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.stats-page .stats-period-btn {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.stats-page .stats-period-btn:hover {
+    border-color: var(--accent);
+}
+
+.stats-page .stats-period-btn[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.stats-page .stats-period-btn:focus-visible,
+.stats-page .stats-empty .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Cartes de chiffres */
+.stats-page .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin: 14px 0 10px;
+}
+
+.stats-page .stats-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+}
+
+.stats-page .stats-stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
+.stats-page .stats-stat-label {
+    font-size: .8rem;
+    color: var(--muted);
+}
+
+.stats-page .stats-stat-sub {
+    font-size: .75rem;
+    color: var(--muted);
+}
+
+.stats-page .stats-week {
+    margin: 0 0 14px;
+    color: var(--muted);
+}
+
+/* Graphiques */
+.stats-page .stats-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: var(--gap);
+}
+
+.stats-page .stats-chart {
+    min-width: 0;
+}
+
+.stats-page .stats-chart-title {
+    margin: 0 0 8px;
+    font-size: .95rem;
+    color: var(--text);
+}
+
+.stats-page .stats-chart-box {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: 240px;
+}
+
+.stats-page .stats-unavailable {
+    margin: 0;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+/* Légende de l'anneau */
+.stats-page .stats-legend {
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 6px;
+}
+
+.stats-page .stats-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: var(--text);
+}
+
+.stats-page .stats-legend-dot {
+    flex: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.stats-page .stats-legend-name {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.stats-page .stats-legend-time {
+    flex: none;
+    color: var(--muted);
+}
+
+/* Section 2 : prochaines échéances */
+.stats-page .stats-subtitle {
+    margin: 16px 0 8px;
+    font-size: .95rem;
+    color: var(--text);
+}
+
+.stats-page .stats-upcoming {
+    margin: 0 0 14px;
+    padding-left: 18px;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
+.stats-page .stats-empty {
+    text-align: center;
+    padding: 20px 10px;
+    color: var(--muted);
+}
+
+.stats-page .stats-empty p {
+    margin: 0 0 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stats-page * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

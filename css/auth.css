@@ -1,0 +1,275 @@
+/* =========================================================
+   StudyFlow — Authentification & Synchronisation (auth.css)
+   Thème verre sombre cohérent avec theme.css.
+   ========================================================= */
+
+/* --- Indicateur discret dans la barre supérieure --- */
+.topbar {
+  gap: 12px;
+}
+
+.auth-sync-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(14px);
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  flex: none;
+  transition: border-color .18s, color .18s;
+}
+
+.auth-sync-pill:hover {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, .18);
+}
+
+.auth-sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex: none;
+}
+
+.auth-sync-pill[data-status="synced"] .auth-sync-dot { background: var(--ok); }
+.auth-sync-pill[data-status="synced"] { color: var(--text); }
+
+.auth-sync-pill[data-status="syncing"] .auth-sync-dot {
+  background: var(--info);
+  animation: auth-pulse 1s ease-in-out infinite;
+}
+
+.auth-sync-pill[data-status="offline"] .auth-sync-dot { background: var(--warn); }
+.auth-sync-pill[data-status="conflict"] .auth-sync-dot { background: var(--danger); }
+
+@keyframes auth-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .45; transform: scale(.85); }
+}
+
+/* --- Boîtes de dialogue Auth & Conflit --- */
+.auth-dialog {
+  width: min(440px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+  padding: 24px;
+  color: var(--text);
+  color-scheme: dark;
+  background-color: var(--bg-1);
+  background-image: linear-gradient(var(--card), var(--card));
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .6);
+  overflow-y: auto;
+}
+
+.auth-dialog::backdrop {
+  background: rgba(6, 10, 22, .72);
+  backdrop-filter: blur(4px);
+}
+
+.auth-head {
+  margin-bottom: 16px;
+}
+
+.auth-title {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.auth-sub {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+}
+
+.auth-tab {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .15s, color .15s;
+}
+
+.auth-tab[aria-selected="true"] {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--info));
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Sans cette règle, display:flex ci-dessus empêcherait l'attribut hidden de cacher le champ. */
+.auth-field[hidden] {
+  display: none;
+}
+
+.auth-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.auth-input {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+}
+
+.auth-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.auth-error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(240, 97, 109, .5);
+  background: rgba(240, 97, 109, .12);
+  color: #ff9aa2;
+  font-size: 0.88rem;
+}
+
+.auth-error[hidden] {
+  display: none;
+}
+
+.auth-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.auth-actions .btn {
+  width: 100%;
+  justify-content: center;
+  min-height: 42px;
+}
+
+.auth-note {
+  margin: 12px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* --- Dialogue de conflit --- */
+.auth-conflict-boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.auth-conflict-box {
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--card-border);
+  font-size: 0.85rem;
+}
+
+.auth-conflict-box strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.auth-conflict-box span {
+  color: var(--muted);
+  display: block;
+}
+
+.auth-conflict-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.auth-conflict-actions .btn {
+  justify-content: center;
+  min-height: 42px;
+}
+
+/* --- Carte Compte dans Réglages --- */
+.auth-account-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth-account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.auth-account-email {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.auth-account-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+@media (max-width: 520px) {
+  .auth-sync-label { display: none; }
+  .auth-conflict-boxes,
+  .auth-conflict-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-sync-pill[data-status="syncing"] .auth-sync-dot { animation: none; }
+}

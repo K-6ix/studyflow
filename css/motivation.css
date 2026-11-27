@@ -1,0 +1,192 @@
+/* =========================================================
+   StudyFlow — Motivation : badges de série et bilan de la semaine
+   Tous les sélecteurs commencent par « moti- ».
+   ========================================================= */
+
+/* --- Pastille de différence (+1 h 15, −40 min, =) --- */
+.moti-delta {
+  flex: none;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+.moti-up   { color: #6ee7b7; background: rgba(16, 185, 129, .16); }
+.moti-down { color: #fcd34d; background: rgba(245, 158, 11, .16); }
+.moti-same { color: var(--muted); background: rgba(255, 255, 255, .06); }
+
+/* --- Badges de série --- */
+.moti-streak-line { margin: 0 0 12px; }
+
+.moti-badges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.moti-badge {
+  --tier-rgb: 245, 158, 11; /* couleur du badge : orange, bleu ou violet selon le niveau */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  text-align: center;
+  border-radius: 14px;
+}
+.moti-tier-2 { --tier-rgb: 79, 131, 255; }
+.moti-tier-3 { --tier-rgb: 124, 92, 255; }
+
+.moti-badge-unlocked {
+  background: rgba(var(--tier-rgb), .16);
+  border: 1px solid rgba(var(--tier-rgb), .55);
+}
+.moti-badge-unlocked .moti-badge-icon { color: rgb(var(--tier-rgb)); }
+.moti-badge-unlocked .moti-badge-state { color: #6ee7b7; }
+
+/* Un badge pas encore gagné : sobre, en pointillés. */
+.moti-badge-locked {
+  background: rgba(255, 255, 255, .03);
+  border: 1px dashed rgba(255, 255, 255, .18);
+}
+.moti-badge-locked .moti-badge-icon { color: var(--muted); opacity: .5; }
+.moti-badge-locked .moti-badge-days { color: var(--muted); }
+
+.moti-badge-icon { display: grid; place-items: center; }
+.moti-badge-days { font-size: 16px; font-weight: 700; }
+.moti-badge-state { font-size: 12px; color: var(--muted); }
+
+.moti-progress { margin-top: 14px; }
+.moti-progress-label {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.moti-progress .moti-progress-label { margin: 0 0 6px; }
+.moti-progress-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+}
+.moti-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--info));
+  transition: width .6s ease;
+}
+.moti-rule { margin: 10px 0 0; font-size: 12px; }
+
+/* --- Bilan de la semaine --- */
+/* Le dimanche, la carte est entourée d'une lueur violette. */
+.moti-recap-sunday {
+  border-color: rgba(124, 92, 255, .6);
+  box-shadow: 0 0 0 1px rgba(124, 92, 255, .25), 0 10px 40px rgba(124, 92, 255, .2);
+}
+
+.moti-recap-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.moti-recap-head p { margin: 0; }
+.moti-recap-title { margin-bottom: 4px; }
+.moti-tag { color: #cbbcff; border-color: rgba(124, 92, 255, .5); background: rgba(124, 92, 255, .16); }
+
+.moti-empty {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+.moti-empty p { margin: 0; }
+
+.moti-totals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 24px;
+  margin-top: 14px;
+}
+.moti-total { display: flex; flex-direction: column; }
+.moti-total-value { font-size: 24px; font-weight: 700; line-height: 1.2; }
+.moti-total-label { font-size: 12px; color: var(--muted); }
+.moti-totals .moti-delta { align-self: center; font-size: 13px; padding: 4px 10px; }
+
+.moti-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.moti-swatch {
+  display: inline-block;
+  width: 18px;
+  height: 6px;
+  margin-right: 6px;
+  vertical-align: middle;
+  border-radius: 999px;
+}
+
+.moti-rows {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.moti-row-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+.moti-row-subject {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.moti-row-time { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.moti-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 6px;
+}
+.moti-bar {
+  height: 6px;
+  border-radius: 999px;
+  transition: width .6s ease;
+}
+.moti-bar-now    { background: linear-gradient(90deg, var(--accent), var(--info)); }
+.moti-bar-before { background: rgba(255, 255, 255, .22); }
+
+.moti-message {
+  margin: 16px 0 0;
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .05);
+}
+
+/* --- Mobile --- */
+@media (max-width: 699px) {
+  .moti-badge { padding: 12px 4px; }
+  .moti-badge-days { font-size: 14px; }
+  .moti-badge-state { font-size: 11px; }
+  .moti-recap-head { flex-direction: column; }
+}
