@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>StudyFlow</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/agenda.css">
+  <link rel="stylesheet" href="css/tasks.css">
+  <link rel="stylesheet" href="css/revisions.css">
+  <link rel="stylesheet" href="css/timer.css">
+  <link rel="stylesheet" href="css/stats.css">
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="css/importer.css">
+  <link rel="stylesheet" href="css/reminders.css">
+  <link rel="stylesheet" href="css/motivation.css">
+  <link rel="stylesheet" href="css/tour.css?v=3">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/log.css">
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- Barre latérale étroite -->
+    <aside class="rail" aria-label="Barre latérale">
+      <a class="rail-settings" href="#/settings" aria-label="Réglages" title="Réglages">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </a>
+    </aside>
+
+    <!-- Barre supérieure avec recherche -->
+    <header class="topbar">
+      <a class="logo" href="#/home" aria-label="StudyFlow, retour à l'accueil">StudyFlow</a>
+      <div class="search">
+        <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search-input" type="search" placeholder="Rechercher…" aria-label="Rechercher">
+        <kbd class="search-kbd" aria-hidden="true">Ctrl K</kbd>
+      </div>
+    </header>
+
+    <!-- Zone centrale : les vues sont injectées ici -->
+    <main id="views" class="views"></main>
+
+    <!-- Barre de navigation flottante du bas -->
+    <nav class="dock" aria-label="Navigation principale"></nav>
+
+    <!-- Notifications -->
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  </div>
+
+  <!-- Scripts dans l'ordre du contrat -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/dates.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/activities.js"></script>
+  <script src="js/timetable.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/planner.js"></script>
+  <script src="js/sessions.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/reminders.js"></script>
+  <script src="js/motivation.js"></script>
+  <script src="js/ai-reader.js"></script>
+  <script src="js/importer.js"></script>
+  <script src="js/importer-ui.js"></script>
+  <script src="js/tour.js?v=3"></script>
+  <script src="js/views/home.js"></script>
+  <script src="js/views/agenda.js"></script>
+  <script src="js/views/tasks.js"></script>
+  <script src="js/views/revisions.js"></script>
+  <script src="js/views/timer.js"></script>
+  <script src="js/views/stats.js"></script>
+  <script src="js/views/settings.js"></script>
+  <script src="js/views/log.js"></script>
+
+  <script>
+    // 1) On construit l'appli (les vues se montent, y compris Réglages qui écoute SF.auth).
+    SF.app.start();
+
+    // 2) On démarre les comptes APRÈS start() (les vues sont prêtes à recevoir la carte).
+    //    Au tout premier lancement, la visite guidée s'ouvre toute seule : pour ne pas
+    //    avoir deux fenêtres l'une sur l'autre, on attend qu'elle soit fermée.
+    (function () {
+      var started = false;
+      function startAuth() {
+        if (started) return;
+        started = true;
+        if (SF.auth) SF.auth.init();
+      }
+
+      if (SF.tour && !SF.tour.hasSeen()) {
+        // La visite prévient la page avec l'événement « sf:tour-closed » quand elle se ferme.
+        document.addEventListener('sf:tour-closed', startAuth);
+      } else {
+        startAuth();
+      }
+    })();
+  </script>
+</body>
+</html>
